@@ -87,6 +87,8 @@ Agar bill system mein address add karna ho:
 
 ## ✅ Advantages of Database System
 
+![Database Diagram](https://github.com/Tehreem-Asghar/CS403-Database-Management-System-Notes-/blob/main/IMG_20260409_105334.png)
+
 Database system mein:
 - Data ek hi jagah store hota hai
 - DBMS usay manage karta hai
