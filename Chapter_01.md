@@ -46,6 +46,8 @@ Aaj kal:
 
 ## 📁 Traditional File Processing System
 
+![file system diagram ](https://github.com/Tehreem-Asghar/CS403-Database-Management-System-Notes-/blob/main/IMG-20260409-WA0002.jpg)
+
 Yeh pehla computer-based system tha jo business applications ke liye use hota tha.
 
 ### 🕰️ Old System (Manual Files)
