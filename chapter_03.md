@@ -15,6 +15,26 @@
 
 ---
 
+- **Database Architecture** → Database ko organize aur manage karne ka structured design database architecture kehlata hai.
+
+- **Three Level Schema Architecture**→ Database ko External, Conceptual aur Internal levels me divide karne wali architecture ko Three Level Schema Architecture kehte hain.
+
+- **Internal Level / Internal Schema** → Database ki physical storage aur internal details ko define karne wala level Internal Level kehlata hai.
+
+- **External View / External Schema** → User ko uski requirement ke mutabiq data dikhane wala view External View kehlata hai.
+
+- **Conceptual / Logical View** → Database ki complete logical structure aur relationships ko define karne wala level Conceptual View kehlata hai.
+
+- **Database Intention** → Database ka permanent design aur structure Database Intention kehlata hai.
+
+- **Database Extension** → Database me actual data insert karne ke process ko Database Extension kehte hain.
+
+- **Mapping Between Levels** → Database ke different levels ko aapas me connect karne ke process ko Mapping Between Levels kehte hain.
+
+- **Real Life Examples** → Daily life ki practical situations jinse database concepts ko samjha jaye unhe Real Life Examples kehte hain.
+
+---
+
 # Introduction to Database Architecture
 
 Database Architecture ek structured design hoti hai jo database system ko organize karti hai.
