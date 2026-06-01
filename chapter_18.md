@@ -1,27 +1,25 @@
 # Database Management System (CS403) – Lecture 18 Detailed Notes
 
-# Lecture 18: Types of Joins, Relational Calculus & Introduction to Normalization
+# Lecture 18: Types of Joins, Relational Calculus aur Introduction to Normalization
 
-## Overview
+## Lecture Overview
 
-In this lecture, we study:
+Is lecture mein hum ye topics parhenge:
 
 - Types of Joins
 - Relational Calculus
-- Introduction to Normalization
+- Normalization ka Introduction
 - Database Anomalies
+
+Pichlay lecture mein hum ne Relational Algebra ke operators parhe thay. Is lecture mein hum Joins ko detail se samjhenge jo databases mein bohat zyada use hotay hain.
 
 ---
 
-# 1. Joins in DBMS
+# 1. Join Kya Hota Hai?
 
-A **Join** is used to combine data from two or more tables based on a related attribute.
+Join ek operation hai jo do ya zyada tables ko combine karta hai taake related data ek hi result mein hasil kiya ja sake.
 
-### Why Joins are Needed?
-
-In relational databases, data is stored in multiple tables to reduce redundancy.
-
-Example:
+## Real Life Example
 
 ### FACULTY
 
@@ -39,11 +37,11 @@ Example:
 | C3458 | Money & Capital Market | F236 |
 | C3459 | Introduction to Accounting | F237 |
 
-If we want to know:
+Agar hume pata karna ho:
 
-> Which teacher teaches which course?
+> Konsa teacher konsa course parha raha hai?
 
-We need a JOIN.
+To hume Join use karna paray ga.
 
 ---
 
@@ -63,15 +61,15 @@ We need a JOIN.
 
 ## Definition
 
-Theta Join applies a condition before performing a cross product.
+Theta Join mein pehle kisi table par condition lagayi jati hai phir selected records ko doosri table ke sath combine kiya jata hai.
 
-### General Form
+### Formula
 
-```sql
+```text
 R ⋈θ S
 ```
 
-Where:
+Yahan:
 
 - R = First Relation
 - S = Second Relation
@@ -103,11 +101,17 @@ Selected Records:
 | F235 | Tahir |
 | F236 | Ayesha |
 
-Now only these records participate in the join.
+Ab sirf ye records COURSE table ke sath combine honge.
 
-### Important Point
+---
 
-Theta Join = Selection + Cross Product
+## Yaad Rakhein
+
+Theta Join:
+
+```text
+Selection + Cross Product
+```
 
 ---
 
@@ -115,13 +119,7 @@ Theta Join = Selection + Cross Product
 
 ## Definition
 
-Equi Join combines rows having equal values in common attributes.
-
-### Condition
-
-```sql
-FACULTY.facId = COURSE.fId
-```
+Equi Join mein do tables ki rows ko common attribute ki equal values ki bunyad par join kiya jata hai.
 
 ---
 
@@ -143,6 +141,12 @@ FACULTY.facId = COURSE.fId
 | C3458 | F236 |
 | C3459 | F237 |
 
+Join Condition:
+
+```sql
+FACULTY.facId = COURSE.fId
+```
+
 ### Result
 
 | facId | facName | crCode | fId |
@@ -151,9 +155,11 @@ FACULTY.facId = COURSE.fId
 | F236 | Ayesha | C3458 | F236 |
 | F237 | Samad | C3459 | F237 |
 
-### Key Feature
+---
 
-Common attributes appear twice.
+## Important Point
+
+Equi Join mein common attribute do martaba show hota hai.
 
 Example:
 
@@ -164,16 +170,16 @@ COURSE.fId
 
 ---
 
-# Real Life Example of Equi Join
+# Real Life Example
 
-## STUDENT
+### STUDENT
 
 | studentId | studentName |
 |------------|-------------|
 | S1 | Ali |
 | S2 | Ahmed |
 
-## RESULT
+### RESULT
 
 | studentId | marks |
 |------------|-------|
@@ -199,11 +205,9 @@ Result:
 
 ## Definition
 
-Natural Join is similar to Equi Join.
+Natural Join Equi Join jaisa hota hai.
 
-Difference:
-
-- Duplicate common attributes are removed.
+Farq sirf itna hai ke duplicate common attribute ko remove kar diya jata hai.
 
 ---
 
@@ -217,19 +221,20 @@ Difference:
 | F236 | Ayesha | C3458 | Money & Capital Market |
 | F237 | Samad | C3459 | Introduction to Accounting |
 
-### Important Point
+---
 
-Only one copy of common attribute appears.
+## Important Point
+
+Natural Join mein common attribute sirf aik martaba show hota hai.
 
 ---
 
 # Equi Join vs Natural Join
 
-| Feature | Equi Join | Natural Join |
-|----------|-----------|-------------|
-| Common Attribute | Appears Twice | Appears Once |
-| Condition | Explicitly Written | Automatically Applied |
-| Output Size | Larger | Smaller |
+| Equi Join | Natural Join |
+|------------|------------|
+| Common attribute 2 dafa show hota hai | Common attribute 1 dafa show hota hai |
+| Duplicate columns rehti hain | Duplicate columns remove ho jati hain |
 
 ---
 
@@ -237,18 +242,9 @@ Only one copy of common attribute appears.
 
 ## Definition
 
-Returns:
+Left table ke tamam records result mein zaroor aatay hain.
 
-- All records from Left Table
-- Matching records from Right Table
-
-If no match exists:
-
-```text
-NULL
-```
-
-is placed.
+Agar right table mein matching record na mile to NULL show hota hai.
 
 ---
 
@@ -269,7 +265,7 @@ is placed.
 | S1 | Ali |
 | S2 | Ahmed |
 
-### Left Outer Join Result
+### Result
 
 | bookId | title | studentName |
 |---------|---------|-------------|
@@ -277,9 +273,15 @@ is placed.
 | B2 | OS | Ahmed |
 | B3 | Networks | NULL |
 
-### Key Feature
+---
 
-All rows from LEFT table remain.
+## Yaad Rakhein
+
+Left Join mein:
+
+```text
+Left Table ki tamam rows zaroor aati hain
+```
 
 ---
 
@@ -287,17 +289,15 @@ All rows from LEFT table remain.
 
 Food Delivery App
 
-### Orders
+Orders table:
 
 | orderId | customerId |
-|----------|------------|
+|----------|-----------|
 | O1 | C1 |
 | O2 | C2 |
 | O3 | NULL |
 
-Even if customer information is missing:
-
-Order O3 will still appear.
+Agar customer data na bhi ho to order phir bhi result mein nazar aayega.
 
 ---
 
@@ -305,12 +305,9 @@ Order O3 will still appear.
 
 ## Definition
 
-Returns:
+Right table ke tamam records result mein zaroor aatay hain.
 
-- All records from Right Table
-- Matching records from Left Table
-
-Non-matching Left records become NULL.
+Agar left side par matching record na ho to NULL show hota hai.
 
 ---
 
@@ -339,9 +336,15 @@ Non-matching Left records become NULL.
 | B2 | Ahmed |
 | NULL | Sara |
 
-### Key Feature
+---
 
-All students appear.
+## Yaad Rakhein
+
+Right Join mein:
+
+```text
+Right Table ki tamam rows zaroor aati hain
+```
 
 ---
 
@@ -349,15 +352,7 @@ All students appear.
 
 ## Definition
 
-Combines:
-
-```text
-Left Outer Join
-+
-Right Outer Join
-```
-
-Returns every record from both tables.
+Full Outer Join mein dono tables ke tamam records result mein aatay hain.
 
 ---
 
@@ -390,14 +385,26 @@ Returns every record from both tables.
 
 ---
 
+## Formula
+
+```text
+Full Outer Join
+=
+Left Outer Join
++
+Right Outer Join
+```
+
+---
+
 # 8. Semi Join
 
 ## Definition
 
-Steps:
+Semi Join mein:
 
-1. Perform Natural Join
-2. Keep attributes of first table only
+1. Pehle Natural Join ki jati hai.
+2. Phir sirf pehli table ke columns rakhe jate hain.
 
 ---
 
@@ -413,9 +420,9 @@ Steps:
 
 ### COURSE
 
-Contains matching records.
+Matching records mojood hain.
 
-### Semi Join Result
+### Result
 
 | facId | facName |
 |--------|----------|
@@ -423,21 +430,29 @@ Contains matching records.
 | F236 | Ayesha |
 | F237 | Samad |
 
-Only FACULTY attributes remain.
+---
+
+## Yaad Rakhein
+
+Semi Join mein:
+
+```text
+Sirf pehli table ke attributes show hotay hain.
+```
 
 ---
 
-# Summary of All Joins
+# Joins Ka Quick Summary
 
-| Join Type | Output |
+| Join Type | Result |
 |------------|---------|
 | Theta Join | Selection + Cross Product |
-| Equi Join | Matching Rows |
-| Natural Join | Matching Rows + Remove Duplicate Columns |
-| Left Join | All Left Records |
-| Right Join | All Right Records |
-| Full Join | All Records From Both Tables |
-| Semi Join | First Table Attributes Only |
+| Equi Join | Matching Records |
+| Natural Join | Matching Records + Duplicate Column Remove |
+| Left Join | Left Table Ki Sab Rows |
+| Right Join | Right Table Ki Sab Rows |
+| Full Join | Dono Tables Ki Sab Rows |
+| Semi Join | Sirf First Table Ke Columns |
 
 ---
 
@@ -445,22 +460,24 @@ Only FACULTY attributes remain.
 
 ## Definition
 
-Relational Calculus is a:
+Relational Calculus ek:
 
 ```text
 Non-Procedural Query Language
 ```
 
-User specifies:
+hai.
+
+Is mein user sirf batata hai:
 
 ```text
-What data is needed
+Kya data chahiye?
 ```
 
-Not:
+Ye nahi batata:
 
 ```text
-How to retrieve it
+Data kaise retrieve karna hai?
 ```
 
 ---
@@ -476,7 +493,7 @@ How to retrieve it
 
 ## Definition
 
-Works with entire rows (tuples).
+TRC poori rows (tuples) par kaam karta hai.
 
 ---
 
@@ -488,13 +505,15 @@ Works with entire rows (tuples).
 
 Meaning:
 
-> Find all tuples T for which predicate P(T) is true.
+```text
+Tamam woh tuples hasil karo jin ke liye condition true ho.
+```
 
 ---
 
 ## Example
 
-STUDENT
+### STUDENT
 
 | studentId | credits |
 |------------|---------|
@@ -505,7 +524,7 @@ STUDENT
 Expression:
 
 ```text
-{ S | S.credits > 50 }
+{ S | S.Credits > 50 }
 ```
 
 Result:
@@ -517,13 +536,11 @@ Result:
 
 ---
 
-# Real Life Example
+## Real Life Example
 
-University wants:
+University ko un students ki list chahiye jinke credits 50 se zyada hain.
 
-> Students having more than 50 credit hours.
-
-TRC Query:
+Query:
 
 ```text
 { S | S.Credits > 50 }
@@ -535,20 +552,20 @@ TRC Query:
 
 ## Definition
 
-Works with individual attribute values instead of whole tuples.
+DRC poori row ki bajaye individual attribute values par kaam karta hai.
 
 ---
 
 ## Example
 
-STUDENT
+### STUDENT
 
 | studentId | name |
 |------------|------|
 | S1 | Ali |
 | S2 | Ahmed |
 
-DRC:
+Expression:
 
 ```text
 { <id,name> | STUDENT(id,name) }
@@ -567,28 +584,32 @@ Result:
 
 ## Definition
 
-Normalization is a process of organizing database tables to reduce redundancy and anomalies.
+Normalization database ko organize karne ka process hai.
 
----
+Is ka maqsad:
 
-## Why Normalization?
-
-Without normalization:
-
-- Duplicate Data
-- Update Problems
-- Delete Problems
-- Insert Problems
-
-occur.
+- Redundancy kam karna
+- Data consistency improve karna
+- Database maintenance asaan banana
 
 ---
 
 # Database Anomalies
 
-## 1. Redundancy
+Normalization in problems ko solve karti hai:
 
-Same information stored repeatedly.
+1. Redundancy
+2. Insertion Anomaly
+3. Update Anomaly
+4. Deletion Anomaly
+
+---
+
+# 1. Redundancy
+
+## Definition
+
+Aik hi information ka baar baar store hona.
 
 ### Example
 
@@ -598,91 +619,82 @@ Same information stored repeatedly.
 | Ahmed | CS |
 | Sara | CS |
 
-Department name repeated many times.
+Department ka naam baar baar repeat ho raha hai.
 
 ---
 
-## 2. Insertion Anomaly
+# 2. Insertion Anomaly
 
-Unable to insert data.
+## Definition
+
+Naya data insert karne mein problem aana.
 
 ### Example
 
-Department exists but no student yet.
+Department exist karta hai lekin abhi us mein koi student nahi.
 
-Cannot store department information.
+Department ka record insert nahi kar sakte.
 
 ---
 
-## 3. Update Anomaly
+# 3. Update Anomaly
 
-Same data must be updated at many places.
+## Definition
+
+Aik hi data ko kai records mein update karna parna.
 
 ### Example
 
-CS renamed to Computer Science.
+CS ka naam Computer Science karna hai.
 
-Need to update every record.
+Har row update karni paray gi.
 
 ---
 
-## 4. Deletion Anomaly
+# 4. Deletion Anomaly
 
-Deleting one record removes useful information.
+## Definition
+
+Aik record delete karne se important information bhi delete ho jana.
 
 ### Example
 
-Deleting last student of CS department removes department information.
+CS department ka aakhri student delete kar diya.
+
+Department ki information bhi khatam ho gayi.
 
 ---
 
 # Normal Forms
 
-Normalization has multiple levels.
+Normalization ke levels ko Normal Forms kehte hain.
 
-## 1NF
-
-First Normal Form
-
-## 2NF
-
-Second Normal Form
-
-## 3NF
-
-Third Normal Form
-
-## BCNF
-
-Boyce-Codd Normal Form
-
-## 4NF
-
-Fourth Normal Form
-
-## 5NF
-
-Fifth Normal Form
+- 1NF (First Normal Form)
+- 2NF (Second Normal Form)
+- 3NF (Third Normal Form)
+- BCNF
+- 4NF
+- 5NF
 
 ---
 
-# Goal of Normalization
+# Normalization Ka Goal
 
 ```text
-Reduce Redundancy
+Redundancy Kam Karna
 +
-Improve Consistency
+Anomalies Remove Karna
 +
-Avoid Anomalies
+Consistency Improve Karna
 +
-Improve Maintenance
+Database Maintenance Asaan Banana
 ```
 
 ---
 
 # Complete Lecture Summary
 
-### Joins
+## Joins
 
 - Theta Join
 - Equi Join
@@ -692,33 +704,33 @@ Improve Maintenance
 - Full Outer Join
 - Semi Join
 
-### Relational Calculus
+## Relational Calculus
 
-- Tuple Relational Calculus
-- Domain Relational Calculus
+- Tuple Relational Calculus (TRC)
+- Domain Relational Calculus (DRC)
 
-### Normalization
+## Normalization
 
 - Introduction
 - Database Anomalies
 - Normal Forms
 
-### Important Exam Points
+## Important Exam Points
 
-✅ Equi Join → Common column appears twice
+✅ Equi Join → Common column 2 dafa show hota hai
 
-✅ Natural Join → Common column appears once
+✅ Natural Join → Common column 1 dafa show hota hai
 
-✅ Left Join → All rows from left table
+✅ Left Join → Left table ki tamam rows
 
-✅ Right Join → All rows from right table
+✅ Right Join → Right table ki tamam rows
 
-✅ Full Join → All rows from both tables
+✅ Full Join → Dono tables ki tamam rows
 
-✅ Semi Join → Only first table columns
+✅ Semi Join → Sirf first table ke columns
 
-✅ TRC → Works on tuples (rows)
+✅ TRC → Rows (Tuples) par kaam karta hai
 
-✅ DRC → Works on domains (attribute values)
+✅ DRC → Attribute values (Domains) par kaam karta hai
 
-✅ Normalization removes redundancy and anomalies
+✅ Normalization → Redundancy aur anomalies ko remove karti hai
